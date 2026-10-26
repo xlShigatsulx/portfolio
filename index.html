@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Portfolio of Ruslan Tymofiienko: Shopify themes, headless Shopify and React/TypeScript development.">
+<title>Ruslan Tymofiienko Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one calm column system. Left-aligned hero with a facts list, then three case files
+   (story left, "exhibit" panel right), then experience, skills, contact. */
+:root {
+  --bg: #F1F4F0;
+  --surface: #FFFFFF;
+  --ink: #14201A;
+  --muted: #536259;
+  --line: #D3DBD4;
+  --accent: #0A7A57;
+  --accent-soft: #DDEFE7;
+  --on-accent: #FFFFFF;
+  --font-display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1512; --surface: #151E1A; --ink: #E7EEE9; --muted: #98A9A0;
+    --line: #26332C; --accent: #4CC79A; --accent-soft: #173026; --on-accent: #08130E;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1512; --surface: #151E1A; --ink: #E7EEE9; --muted: #98A9A0;
+  --line: #26332C; --accent: #4CC79A; --accent-soft: #173026; --on-accent: #08130E;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 56px;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 10; }
+.wrap { max-width: 1080px; margin-inline: auto; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; line-height: 1.12; letter-spacing: -0.02em; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+
+/* header */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bg); border-bottom: 1px solid var(--line); }
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.top strong { font-family: var(--font-display); font-size: 17px; letter-spacing: -0.01em; }
+.top nav { display: flex; gap: 20px; font-size: 14px; flex-wrap: wrap; }
+.top nav a { text-decoration: none; color: var(--muted); }
+.top nav a:hover { color: var(--ink); }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 56px; padding-block: 72px 64px; align-items: start; }
+.hero h1 { font-size: clamp(2.2rem, 5.2vw, 3.7rem); }
+.hero .lead { margin-top: 24px; font-size: 1.15rem; color: var(--muted); max-width: 54ch; }
+.hero .cta { margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap; }
+.btn { display: inline-block; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 15px; border: 1px solid var(--ink); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.ghost:hover { background: var(--surface); }
+.facts { margin: 0; border-top: 2px solid var(--ink); }
+.facts div { display: grid; grid-template-columns: 7.2rem minmax(0, 1fr); gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.facts dt { font-family: var(--font-mono); font-size: 12px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+.facts dd { margin: 0; font-weight: 500; }
+.facts dd small { display: block; font-weight: 400; color: var(--muted); font-size: 14px; }
+
+section { padding-block: 56px; border-top: 1px solid var(--line); }
+.sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 32px; }
+.sec-head h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+
+/* services */
+.services { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; border-top: 1px solid var(--line); }
+.service { padding: 24px 32px 24px 0; border-bottom: 1px solid var(--line); }
+.service:nth-child(even) { padding-left: 32px; padding-right: 0; border-left: 1px solid var(--line); }
+.service h3 { font-size: 1.25rem; margin-bottom: 8px; }
+.service p { color: var(--muted); max-width: 46ch; }
+
+/* cases */
+.case { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 48px; padding-block: 48px; border-top: 1px solid var(--line); break-inside: avoid; }
+.case:first-of-type { border-top: 0; padding-top: 0; }
+.case h3 { font-size: clamp(1.5rem, 2.8vw, 2rem); margin-top: 10px; }
+.case .one { margin-top: 12px; font-size: 1.08rem; color: var(--muted); }
+.meta { display: flex; flex-wrap: wrap; gap: 6px 8px; margin-top: 18px; padding: 0; list-style: none; }
+.meta li { font-family: var(--font-mono); font-size: 12.5px; padding: 3px 9px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+.points { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+.points li { padding-left: 22px; position: relative; }
+.points li::before { content: ""; position: absolute; left: 0; top: .62em; width: 10px; height: 2px; background: var(--accent); }
+.points b { font-weight: 600; }
+.demo { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; font-size: 14px; }
+.demo a { font-weight: 600; color: var(--accent); }
+.demo span { color: var(--muted); font-family: var(--font-mono); font-size: 12.5px; }
+.note { margin-top: 20px; font-size: 14px; color: var(--muted); }
+
+.shots { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 8px; }
+.shots--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.shot { margin: 0; min-width: 0; }
+.shot .frame { border: 1px solid var(--line); border-radius: 8px; overflow: hidden; background: var(--surface); }
+.shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; }
+.shot figcaption { margin-top: 10px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.exhibit { border-radius: 8px; overflow: hidden; border: 1px solid var(--line); align-self: start; }
+.exhibit .bar { display: flex; justify-content: space-between; gap: 12px; padding: 10px 16px; font-family: var(--font-mono); font-size: 12px; }
+.exhibit .body { padding: 20px 16px 22px; display: grid; gap: 18px; }
+.swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+.sw { display: grid; gap: 6px; font-family: var(--font-mono); font-size: 11.5px; }
+.sw i { display: block; width: 64px; height: 40px; border-radius: 4px; }
+pre { margin: 0; font-family: var(--font-mono); font-size: 12.5px; line-height: 1.65; overflow-x: auto; white-space: pre; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.stats div { padding-top: 10px; border-top: 1px solid currentColor; }
+.stats b { display: block; font-family: var(--font-display); font-size: 1.7rem; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stats span { font-size: 12.5px; opacity: .8; }
+/* each exhibit carries its project's own palette */
+.ex-croissant { background: #1E1B16; color: #F2E8D5; border-color: #1E1B16; }
+.ex-croissant .bar { background: #2B2720; color: #C9B896; }
+.ex-zephra { background: #F7F3EE; color: #1C1917; border-color: #E4DDD3; }
+.ex-zephra .bar { background: #EFEAE2; color: #57534E; }
+.ex-build { background: #0D0F12; color: #F4F6F8; border-color: #2A303A; }
+.ex-build .bar { background: #161A20; color: #9AA4B2; }
+.layers { display: grid; gap: 8px; font-family: var(--font-mono); font-size: 12.5px; }
+.layers div { display: grid; grid-template-columns: 6.4rem minmax(0, 1fr); gap: 10px; padding: 9px 12px; border: 1px solid #4A4338; border-radius: 4px; }
+.layers b { color: #E9B872; font-weight: 500; }
+.flow { font-family: var(--font-mono); font-size: 12.5px; line-height: 1.8; color: #C9B896; }
+.flow span { color: #F2E8D5; }
+
+/* experience */
+.job { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 48px; }
+.job h3 { font-size: 1.35rem; }
+.job .when { font-family: var(--font-mono); font-size: 13px; color: var(--muted); margin-top: 6px; }
+.job ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+.job li { padding-left: 22px; position: relative; }
+.job li::before { content: ""; position: absolute; left: 0; top: .62em; width: 10px; height: 2px; background: var(--accent); }
+.edu { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--line); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2fr); gap: 48px; }
+.edu p + p { margin-top: 6px; }
+.edu span { color: var(--muted); font-size: 14px; }
+
+/* skills */
+.skills { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 48px; }
+.skills h3 { font-size: 1rem; font-family: var(--font-mono); font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 0; list-style: none; }
+.chips li { padding: 4px 11px; border-radius: 99px; background: var(--accent-soft); font-size: 14px; font-weight: 500; }
+
+/* craft */
+.craft { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.craft h3 { font-size: 1.1rem; margin-bottom: 8px; }
+.craft p { color: var(--muted); font-size: 15px; }
+
+/* contact */
+.contact { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.contact h2 { font-size: clamp(1.8rem, 3.4vw, 2.6rem); }
+.contact p { margin-top: 12px; color: var(--muted); max-width: 48ch; }
+.links { display: grid; gap: 10px; }
+.links a { display: flex; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); text-decoration: none; font-weight: 500; }
+.links a:hover { border-color: var(--accent); }
+.links a span { color: var(--muted); font-family: var(--font-mono); font-size: 13px; }
+footer { margin-top: 40px; font-size: 13px; color: var(--muted); }
+
+@media (max-width: 860px) {
+  .hero, .case, .job, .edu, .contact { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .hero { padding-block: 44px 40px; }
+  .shots, .shots--2 { grid-template-columns: minmax(0, 1fr); }
+  .services, .skills, .craft { grid-template-columns: minmax(0, 1fr); }
+  .service, .service:nth-child(even) { padding: 22px 0; border-left: 0; }
+  .craft { gap: 24px; }
+  .top nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+@media print {
+  :root, :root:not([data-theme="light"]) { --bg: #fff; --surface: #fff; --ink: #14201A; --muted: #4a5a51; --line: #cfd8d1; --accent: #0A7A57; --accent-soft: #DDEFE7; --on-accent: #fff; color-scheme: light; }
+  body { padding-block: 0; font-size: 14px; }
+  .top, .cta, body::before { display: none; }
+  #work { break-before: page; padding-top: 0; border-top: 0; }
+  #skills, #craft, #contact, #experience { break-inside: avoid; }
+  .hero { padding-block: 8px 28px; }
+  section { padding-block: 32px; }
+  .case { padding-block: 28px; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <strong>Ruslan Tymofiienko</strong>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div>
+      <p class="label">Shopify developer · React · TypeScript</p>
+      <h1 style="margin-top:16px">I build Shopify stores that load fast and are easy for the owner to run.</h1>
+      <p class="lead">Custom Liquid themes and headless Next.js storefronts. I come from a React and TypeScript product team, so I care about performance, clean code and tests as much as how the store looks.</p>
+      <div class="cta">
+        <a class="btn primary" href="#work">See my work</a>
+        <a class="btn ghost" href="#contact">Work with me</a>
+      </div>
+    </div>
+    <dl class="facts">
+      <div><dt>Focus</dt><dd>Shopify themes<small>Online Store 2.0, Liquid, vanilla JS</small></dd></div>
+      <div><dt>Also</dt><dd>Headless Shopify<small>Next.js, Storefront and Customer Account API</small></dd></div>
+      <div><dt>Proof</dt><dd>~80% lower form latency<small>Measured with React DevTools Profiler</small></dd></div>
+      <div><dt>Base</dt><dd>Novara, Italy<small>Remote, CET time zone</small></dd></div>
+    </dl>
+  </div>
+
+  <section id="services" aria-labelledby="h-services">
+    <div class="sec-head"><h2 id="h-services">What I can build for you</h2><span class="label">Services</span></div>
+    <div class="services">
+      <div class="service"><h3>Custom Shopify themes</h3><p>Online Store 2.0 themes written from scratch. Sections and blocks with theme editor settings, presets and translations, so the owner can change content without a developer.</p></div>
+      <div class="service"><h3>Headless Shopify storefronts</h3><p>Next.js App Router with typed GraphQL, customer login through the Customer Account API, and a cart that feels instant.</p></div>
+      <div class="service"><h3>Store features</h3><p>AJAX cart drawer, collection filters, variant switching, booking with time slots, quote forms and a build configurator.</p></div>
+      <div class="service"><h3>React and TypeScript front ends</h3><p>New features, performance fixes, React Query integration, shared component libraries and unit tests.</p></div>
+    </div>
+  </section>
+
+  <section id="work" aria-labelledby="h-work">
+    <div class="sec-head"><h2 id="h-work">Selected work</h2><span class="label">3 projects</span></div>
+
+    <!-- Case 1 -->
+    <article class="case">
+      <div>
+        <p class="label">2026 · Headless e-commerce</p>
+        <h3>Monsieur Croissant</h3>
+        <p class="one">A Ukrainian-language online bakery built as a fully headless Shopify storefront, with secure customer login and a cart that responds instantly to fast clicking.</p>
+        <ul class="meta"><li>Next.js App Router</li><li>TypeScript</li><li>Apollo Client</li><li>GraphQL Codegen</li><li>OAuth 2.0 + PKCE</li></ul>
+        <ul class="points">
+          <li><b>End-to-end type safety.</b> GraphQL Codegen types every Shopify API call, so schema changes show up as compile errors.</li>
+          <li><b>Customer login.</b> Shopify Customer Account API with OAuth 2.0 and PKCE, state and nonce checks, secure token exchange and httpOnly cookie sessions.</li>
+          <li><b>Optimistic cart.</b> Quantity changes show at once. Mutations are debounced and batched in the background, so fast clicks do not create duplicate requests.</li>
+          <li><b>Fewer re-renders.</b> The cart context is split into three layers and combined with React.memo, useMemo and useCallback. I profiled before and after.</li>
+          <li><b>Pagination without data loss.</b> Custom merge strategies in the Apollo InMemoryCache keep earlier pages when the next page loads.</li>
+        </ul>
+        <p class="demo"><a href="https://monsieur-croissant.vercel.app/" target="_blank" rel="noopener">Open live site</a></p>
+      </div>
+      <div class="exhibit ex-croissant" aria-label="Project overview: cart architecture and login flow">
+        <div class="bar"><span>cart architecture</span><span>3 contexts</span></div>
+        <div class="body">
+          <div class="layers">
+            <div><b>Data</b><span>cart lines, totals</span></div>
+            <div><b>Actions</b><span>add, update, remove</span></div>
+            <div><b>Optimistic</b><span>pending quantities</span></div>
+          </div>
+          <p class="flow"><span>login</span> → PKCE challenge → <span>Shopify</span> → callback<br>state + nonce check → token exchange → <span>httpOnly cookie</span></p>
+        </div>
+      </div>
+      <div class="shots shots--2">
+        <figure class="shot"><div class="frame"><img src="shots/croissant-home.webp" width="1280" height="720" loading="lazy" alt="Monsieur Croissant home page with hero image and navigation"></div><figcaption>Home page</figcaption></figure>
+        <figure class="shot"><div class="frame"><img src="shots/croissant-best.webp" width="1280" height="720" loading="lazy" alt="Monsieur Croissant bestsellers section"></div><figcaption>Bestsellers from the Shopify catalog</figcaption></figure>
+      </div>
+    </article>
+
+    <!-- Case 2 -->
+    <article class="case">
+      <div>
+        <p class="label">Concept theme · Online Store 2.0</p>
+        <h3>Zephra</h3>
+        <p class="one">A complete sneaker store theme: every template, an AJAX cart and collection filters, in Liquid and vanilla JavaScript with no libraries.</p>
+        <ul class="meta"><li>Liquid</li><li>Vanilla JS</li><li>Web Components</li><li>Section Rendering API</li><li>CSS</li></ul>
+        <ul class="points">
+          <li><b>Cart without page reloads.</b> Drawer and cart page share one script. Quantity changes are optimistic and sent one after another, and the final state always comes from the server.</li>
+          <li><b>Filters and product page.</b> Collection filters update the grid, count and pagination in place and fall back to normal navigation on error. Variant changes re-render the product section and update the URL.</li>
+          <li><b>Editable by the merchant.</b> Colors, logo, free-shipping progress bar and every section are settings in the theme editor. Sections come with presets.</li>
+          <li><b>Accessible by default.</b> Skip link, screen reader announcements, focus restored after the cart re-renders, and reduced-motion support.</li>
+        </ul>
+        <p class="demo"><a href="https://zephra-demo.myshopify.com/" target="_blank" rel="noopener">Open live demo</a><span>store password: upifre</span></p>
+        <p class="note">A concept theme I built from scratch, using Claude as an AI assistant. It is not a client project.</p>
+      </div>
+      <div class="exhibit ex-zephra" aria-label="Project overview: palette, code and size">
+        <div class="bar"><span>assets/cart.js</span><span>excerpt</span></div>
+        <div class="body">
+          <div class="swatches" aria-label="Theme palette">
+            <div class="sw"><i style="background:#F7F3EE;border:1px solid #D9D1C5"></i>#F7F3EE</div>
+            <div class="sw"><i style="background:#1C1917"></i>#1C1917</div>
+            <div class="sw"><i style="background:#C7441B"></i>#C7441B</div>
+          </div>
+<pre>// newest change per cart line wins
+queue = queue.filter(
+  (task) =&gt; task.key !== key
+);
+queue.push({ key, quantity });</pre>
+          <div class="stats">
+            <div><b>19</b><span>sections</span></div>
+            <div><b>7</b><span>custom elements</span></div>
+            <div><b>1.2k</b><span>lines of JS</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="shots">
+        <figure class="shot"><div class="frame"><img src="shots/zephra-home.webp" width="1280" height="720" loading="lazy" alt="Zephra home page with sneaker hero"></div><figcaption>Home page</figcaption></figure>
+        <figure class="shot"><div class="frame"><img src="shots/zephra-product.webp" width="1280" height="720" loading="lazy" alt="Zephra product page for the Summit Hike sneaker"></div><figcaption>Product page with color and size variants</figcaption></figure>
+        <figure class="shot"><div class="frame"><img src="shots/zephra-cart.webp" width="1280" height="720" loading="lazy" alt="Zephra cart drawer open over the product page"></div><figcaption>Cart drawer with free-shipping progress</figcaption></figure>
+      </div>
+    </article>
+
+    <!-- Case 3 -->
+    <article class="case">
+      <div>
+        <p class="label">Concept theme · Services and products</p>
+        <h3>BuildForge</h3>
+        <p class="one">A Shopify theme for a custom PC build and repair shop. It sells products, books visits and collects quote requests in one store.</p>
+        <ul class="meta"><li>Liquid</li><li>Vanilla JS</li><li>Metaobjects</li><li>Cart attributes</li><li>Alternate templates</li></ul>
+        <ul class="points">
+          <li><b>Build configurator.</b> The visitor picks a use case, budget and add-ons. The script recommends the best matching build from the collection, or prices a custom build part by part, and fills the quote form.</li>
+          <li><b>Visit booking.</b> Free time slots come from opening hours, closed days, capacity and booked slots stored in metaobjects. The choice is saved as cart attributes that the order emails read.</li>
+          <li><b>Forms that are hard to break.</b> AJAX quote and review forms with validation, input cleaning and a honeypot field. Customer reviews are metaobjects.</li>
+          <li><b>Sales sections.</b> Pricing tabs, before and after results, how it works, FAQ and testimonials, each with its own settings.</li>
+        </ul>
+        <p class="demo"><a href="https://buildforge-demo.myshopify.com/" target="_blank" rel="noopener">Open live demo</a><span>store password: eckeig</span></p>
+        <p class="note">A concept theme I built from scratch, using Claude as an AI assistant. It is not a client project.</p>
+      </div>
+      <div class="exhibit ex-build" aria-label="Project overview: palette, code and size">
+        <div class="bar"><span>assets/booking.js</span><span>excerpt</span></div>
+        <div class="body">
+          <div class="swatches" aria-label="Theme palette">
+            <div class="sw"><i style="background:#0D0F12;border:1px solid #2A303A"></i>#0D0F12</div>
+            <div class="sw"><i style="background:#FF6B1A"></i>#FF6B1A</div>
+            <div class="sw"><i style="background:#22D3EE"></i>#22D3EE</div>
+          </div>
+<pre>var A_DATE = "Visit date",
+    A_TIME = "Visit time",
+    A_DEV  = "Device";
+// order emails read
+// attributes['Visit date']</pre>
+          <div class="stats">
+            <div><b>26</b><span>sections</span></div>
+            <div><b>16</b><span>templates</span></div>
+            <div><b>1.7k</b><span>lines of JS</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="shots">
+        <figure class="shot"><div class="frame"><img src="shots/buildforge-home.webp" width="1280" height="720" loading="lazy" alt="BuildForge home page with PC build hero"></div><figcaption>Home page</figcaption></figure>
+        <figure class="shot"><div class="frame"><img src="shots/buildforge-product.webp" width="1280" height="720" loading="lazy" alt="BuildForge Hardware Upgrade Swap service page"></div><figcaption>Service page</figcaption></figure>
+        <figure class="shot"><div class="frame"><img src="shots/buildforge-cart.webp" width="1280" height="720" loading="lazy" alt="BuildForge cart drawer with a choose your visit control"></div><figcaption>Cart drawer with visit booking</figcaption></figure>
+      </div>
+    </article>
+  </section>
+
+  <section id="experience" aria-labelledby="h-exp">
+    <div class="sec-head"><h2 id="h-exp">Experience</h2><span class="label">Commercial work</span></div>
+    <div class="job">
+      <div>
+        <h3>Junior Full-Stack Developer</h3>
+        <p>TenThousand</p>
+        <p class="when">Jan 2025 – Dec 2025</p>
+      </div>
+      <ul>
+        <li>Built and maintained a production single page application in Next.js and TypeScript. I chose SSR, SSG or CSR for each route to fit its SEO and speed needs.</li>
+        <li>Rebuilt form state management and cut form interaction latency by about 80%, measured with the React DevTools Profiler.</li>
+        <li>Connected REST APIs with React Query: caching, background refetching and request deduplication.</li>
+        <li>Maintained a shared component library that follows the design system, and extended custom hooks without breaking existing features.</li>
+        <li>Wrote unit and integration tests with Jest and React Testing Library for form validation and API error states.</li>
+      </ul>
+    </div>
+    <div class="edu">
+      <h3 style="font-size:1.1rem">Education</h3>
+      <div>
+        <p>B.Sc. Computer Science <span>· Kharkiv National University of Radio Electronics · 2021–2025</span></p>
+        <p>Front-End Pro <span>· Hillel IT School · 2025</span></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" aria-labelledby="h-skills">
+    <div class="sec-head"><h2 id="h-skills">Skills</h2><span class="label">Tools I use</span></div>
+    <div class="skills">
+      <div><h3>Shopify</h3><ul class="chips"><li>Liquid</li><li>Online Store 2.0</li><li>Section Rendering API</li><li>Metaobjects</li><li>Storefront API</li><li>Customer Account API</li></ul></div>
+      <div><h3>Front end</h3><ul class="chips"><li>React</li><li>Next.js</li><li>TypeScript</li><li>JavaScript ES6+</li><li>Tailwind CSS</li><li>Material UI</li></ul></div>
+      <div><h3>Data and state</h3><ul class="chips"><li>React Query</li><li>Apollo Client</li><li>Redux Toolkit</li><li>Zustand</li><li>React Context</li><li>Optimistic UI</li></ul></div>
+      <div><h3>Back end and testing</h3><ul class="chips"><li>Node.js</li><li>Express</li><li>PostgreSQL</li><li>MongoDB</li><li>JWT</li><li>Jest</li><li>React Testing Library</li></ul></div>
+    </div>
+  </section>
+
+  <section id="craft" aria-labelledby="h-craft">
+    <div class="sec-head"><h2 id="h-craft">How I write code</h2><span class="label">Visible in the themes above</span></div>
+    <div class="craft">
+      <div><h3>It still works when something fails</h3><p>Filters, variant switching and forms fall back to normal page loads if a request fails. The cart is rebuilt from the server state after every change.</p></div>
+      <div><h3>Everyone can use it</h3><p>Keyboard navigation, focus management, live announcements for screen readers and reduced-motion support are part of the first version.</p></div>
+      <div><h3>Light and safe</h3><p>No jQuery or slider libraries. Self-hosted fonts, and user input is cleaned before it is used.</p></div>
+    </div>
+  </section>
+
+  <section id="contact" aria-labelledby="h-contact">
+    <div class="contact">
+      <div>
+        <h2 id="h-contact">Have a Shopify or React project?</h2>
+        <p>Send me the job on Upwork. I will reply with how I would build it, what I need from you and a realistic time estimate.</p>
+      </div>
+      <div class="links">
+        <a href="https://www.upwork.com/freelancers/~01f1d588c174ebf74b" target="_blank" rel="noopener">Upwork profile <span>hire me</span></a>
+        <a href="https://github.com/xlShigatsulx" target="_blank" rel="noopener">GitHub <span>xlShigatsulx</span></a>
+        <a href="https://www.linkedin.com/in/ruslan-tymofiienko-0511a41ba/" target="_blank" rel="noopener">LinkedIn <span>ruslan-tymofiienko</span></a>
+      </div>
+    </div>
+    <footer>Ruslan Tymofiienko · Shopify and React/TypeScript developer · Novara, Italy</footer>
+  </section>
+</main>
+
+</body>
+</html>
